@@ -31,10 +31,11 @@ public class Promotion {
 		this.promoPrice = promoPrice;
 	}
 
-	public Promotion(List<SkuCombination> skuCombinationList,double promoPrice){
+	public Promotion(List<SkuCombination> skuCombinationList,double promoPrice, String type){
 		super();
 		this.skuCombinationList = skuCombinationList;
 		this.promoPrice = promoPrice;
+		this.type = type;
 		
 	}
 

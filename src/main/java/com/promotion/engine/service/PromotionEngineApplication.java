@@ -15,10 +15,10 @@ public class PromotionEngineApplication {
 		
 	}
 
-	private static String calculateOrder() {
+	private static double calculateOrder() {
 		CalculateOrderValue calculateOrderValue = new CalculateOrderValue();
 		Order order = new Order();
-		String orderPrice = calculateOrderValue.getOrderValue(order, null);
+		double orderPrice = calculateOrderValue.getOrderValue(order, null);
 		return orderPrice;
 	}
 	

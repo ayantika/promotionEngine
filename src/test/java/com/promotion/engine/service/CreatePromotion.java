@@ -17,7 +17,8 @@ public class CreatePromotion {
 		combi1.setSkuId("A");
 		combi1.setCountOfItems(3);
 		List<SkuCombination> combList = new ArrayList();
-		Promotion promo1 = new Promotion(combList, 130);
+		combList.add(combi1);
+		Promotion promo1 = new Promotion(combList, 130 , "1");
 		return promo1;
 
 	}
@@ -27,7 +28,8 @@ public class CreatePromotion {
 		combi1.setSkuId("B");
 		combi1.setCountOfItems(2);
 		List<SkuCombination> combList = new ArrayList();
-		Promotion promo2 = new Promotion(combList, 45);
+		combList.add(combi1);
+		Promotion promo2 = new Promotion(combList, 45 , "2");
 		return promo2;
 	}
 	
@@ -41,7 +43,7 @@ public class CreatePromotion {
 		List<SkuCombination> combList = new ArrayList();
 		combList.add(combi1);
 		combList.add(combi2);
-		Promotion promo2 = new Promotion(combList, 30);
+		Promotion promo2 = new Promotion(combList, 30 , "3");
 		return promo2;
 	}
 	
