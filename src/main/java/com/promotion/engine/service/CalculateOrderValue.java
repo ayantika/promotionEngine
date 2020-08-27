@@ -28,7 +28,7 @@ public class CalculateOrderValue {
 	private double checkForPromotionPrice(Order order, List<Promotion> promoList) {
 		double price = 0;
 		
-		promoList.stream().forEach(a -> {
+		promoList.forEach(a -> {
 			double promoPrice;
 			if (a.getType().equals("1")) {
 				promoPrice = getPriceForType1(order, a.getSkuCombinationList(), a.getPromoPrice());
