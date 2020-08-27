@@ -1,13 +1,12 @@
 package com.promotion.engine.service;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.promotion.engine.dto.LineItem;
@@ -18,12 +17,22 @@ import com.promotion.engine.dto.SkuCombination;
 @Service
 public class CalculateOrderValue {
 
+	/**
+	 * @param order
+	 * @param promoList
+	 * @return
+	 */
 	public double getOrderValue(Order order, List<Promotion> promoList) {
 		// TODO Auto-generated method stub
 		return checkForPromotionPrice(order, promoList);
 
 	}
 
+	/**
+	 * @param order
+	 * @param promoList
+	 * @return
+	 */
 	private double checkForPromotionPrice(Order order, List<Promotion> promoList) {
 		double price = 0;
 		double promoPrice1 = 0;
@@ -43,45 +52,107 @@ public class CalculateOrderValue {
 		return price;
 	}
 
+	/**
+	 * @param order
+	 * @param skuCombinationList
+	 * @param promoPrice
+	 * @return
+	 */
 	private double getPriceForType3(Order order, List<SkuCombination> skuCombinationList, double promoPrice) {
 		Set<String> promoItemSet = new HashSet();
-		boolean applyOffer;
+		Map<String, Integer> itemsMap = new HashMap();
 		double price = 0;
 		for (SkuCombination combi : skuCombinationList) {
 			promoItemSet.add(combi.getSkuId());
 		}
-
-		Map<String, Integer> itemsMap = new HashMap();
 		order.getItems().forEach(item -> {
 			itemsMap.put(item.getSkuId(), item.getItemCount());
 		});
 		if (isPromotionApplicable(itemsMap, promoItemSet)) {
-			
+			price = calculatePriceWithOffer(itemsMap, order.getItems(), promoPrice, promoItemSet);
 		} else {
 			price = calculatePriceWithoutOffer(order.getItems(), promoItemSet);
 		}
 		return price;
 	}
 
-	private double calculatePriceWithoutOffer(List<LineItem> items,Set<String> promoItemSet) {
+	/**
+	 * @param itemsMap
+	 * @param items
+	 * @param promoPrice
+	 * @param promoItemSet
+	 * @return
+	 */
+	private double calculatePriceWithOffer(Map<String, Integer> itemsMap, List<LineItem> items, double promoPrice,
+			Set<String> promoItemSet) {
+		Integer offerAppliedforCount = itemsMap.values().stream().min(Integer::compare).get();
+		double promoItemsPrice = offerAppliedforCount * promoPrice;
+		double remaingItemsPrice = 0;
+		for (Entry<String, Integer> entry : itemsMap.entrySet()) {
+			if ((promoItemSet.contains(entry.getKey()) && !entry.getValue().equals(offerAppliedforCount))) {
+				remaingItemsPrice = (entry.getValue() - offerAppliedforCount) * getPriceForitem(items, entry.getKey());
+			}
+		}
+
+		return promoItemsPrice + remaingItemsPrice;
+
+	}
+
+	/**
+	 * @param items
+	 * @param key
+	 * @return
+	 */
+	private double getPriceForitem(List<LineItem> items, String key) {
+		for (LineItem item : items) {
+			if (item.getSkuId().equals(key)) {
+				return item.getPrice();
+			}
+		}
+		return 0;
+	}
+
+	/**
+	 * @param items
+	 * @param promoItemSet
+	 * @return
+	 */
+	private double calculatePriceWithoutOffer(List<LineItem> items, Set<String> promoItemSet) {
 		double price = 0;
-		for(LineItem item : items) {
-			if(promoItemSet.contains(item.getSkuId())) {
+		for (LineItem item : items) {
+			if (promoItemSet.contains(item.getSkuId())) {
 				price = price + item.getPrice();
 			}
 		}
 		return price;
 	}
 
+	/**
+	 * @param itemsMap
+	 * @param promoItemSet
+	 * @return
+	 */
 	private boolean isPromotionApplicable(Map<String, Integer> itemsMap, Set<String> promoItemSet) {
 		return itemsMap.keySet().containsAll(promoItemSet);
 
 	}
 
+	/**
+	 * @param order
+	 * @param skuCombinationList
+	 * @param promoPrice
+	 * @return
+	 */
 	private double getPriceForType2(Order order, List<SkuCombination> skuCombinationList, double promoPrice) {
 		return getPriceForType1(order, skuCombinationList, promoPrice);
 	}
 
+	/**
+	 * @param order
+	 * @param skuCombinationList
+	 * @param promoPrice
+	 * @return
+	 */
 	private double getPriceForType1(Order order, List<SkuCombination> skuCombinationList, double promoPrice) {
 		double price = 0;
 		for (SkuCombination combi : skuCombinationList) {
@@ -91,13 +162,13 @@ public class CalculateOrderValue {
 				if (item.getSkuId().contains(combi.getSkuId())) {
 					int itemCountInOrder = item.getItemCount();
 					int itemCountInCombi = combi.getCountOfItems();
-					if ((itemCountInOrder > itemCountInCombi)
+					if ((itemCountInOrder >= itemCountInCombi)
 							&& (itemCountInOrder % itemCountInCombi < itemCountInCombi)) {
 
 						totalcombiPrice = (itemCountInOrder / itemCountInCombi) * promoPrice;
-						int itemsInOffer = (itemCountInOrder / itemCountInCombi)* combi.getCountOfItems();
+						int itemsInOffer = (itemCountInOrder / itemCountInCombi) * combi.getCountOfItems();
 						int remainigItems = item.getItemCount() - itemsInOffer;
-						
+
 						remainingItemPrice = remainigItems * (item.getPrice());
 					} else {
 						price = itemCountInOrder * (item.getPrice());

@@ -68,5 +68,37 @@ class CalculateOrderValueTest {
 		double price = calculateOrderValue.getOrderValue(order, promoList);
 		assertEquals(price,370);
 	}	
+	
+	@Test
+	void testScenarioC() {
+		CreatePromotion createpromo = new CreatePromotion();
+		List<Promotion> promoList= createpromo.getPromotionList();
+		Order order = new Order();
+		List<LineItem> itemList = new ArrayList();
+		LineItem item1 = new LineItem();
+		LineItem item2 = new LineItem();
+		LineItem item3 = new LineItem();
+		LineItem item4 = new LineItem();
+		item1.setSkuId("A");
+		item1.setItemCount(3);
+		item1.setPrice(50);
+		item2.setSkuId("B");
+		item2.setItemCount(5);
+		item2.setPrice(30);
+		item3.setSkuId("C");
+		item3.setItemCount(1);
+		item3.setPrice(20);
+		item4.setSkuId("D");
+		item4.setItemCount(1);
+		item4.setPrice(15);
+		itemList.add(item1);
+		itemList.add(item2);
+		itemList.add(item3);
+		itemList.add(item4);
+		order.setItems(itemList);
+		CalculateOrderValue calculateOrderValue = new CalculateOrderValue();
+		double price = calculateOrderValue.getOrderValue(order, promoList);
+		assertEquals(price,280);
+	}	
 
 }
