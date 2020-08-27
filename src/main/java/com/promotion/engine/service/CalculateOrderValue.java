@@ -15,22 +15,15 @@ import com.promotion.engine.dto.SkuCombination;
 @Service
 public class CalculateOrderValue {
 
-	@Autowired
-	private CreatePromotion createpromo;
 
-	public String getOrderValue(Order order) {
+
+	public String getOrderValue(Order order,List<Promotion> promoList) {
 		// TODO Auto-generated method stub
-		checkForPromotionPrice(order, getPromotionList());
+		checkForPromotionPrice(order, promoList);
 		return null;
 	}
 
-	private List<Promotion> getPromotionList() {
-		List<Promotion> promoList = new ArrayList();
-		promoList.add(createpromo.getPromo1());
-		promoList.add(createpromo.getPromo2());
-		promoList.add(createpromo.getPromo3());
-		return promoList;
-	}
+
 
 	private double checkForPromotionPrice(Order order, List<Promotion> promoList) {
 		double price = 0;

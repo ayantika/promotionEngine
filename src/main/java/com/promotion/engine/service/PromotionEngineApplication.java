@@ -18,7 +18,7 @@ public class PromotionEngineApplication {
 	private static String calculateOrder() {
 		CalculateOrderValue calculateOrderValue = new CalculateOrderValue();
 		Order order = new Order();
-		String orderPrice = calculateOrderValue.getOrderValue(order);
+		String orderPrice = calculateOrderValue.getOrderValue(order, null);
 		return orderPrice;
 	}
 	
