@@ -24,7 +24,7 @@ public class CalculateOrderValue {
 	 */
 	public double getOrderValue(Order order, List<Promotion> promoList) {
 		// TODO Auto-generated method stub
-		return checkForPromotionPrice(order, promoList);
+		return calculateOrderPrice(order, promoList);
 
 	}
 
@@ -33,7 +33,7 @@ public class CalculateOrderValue {
 	 * @param promoList
 	 * @return
 	 */
-	private double checkForPromotionPrice(Order order, List<Promotion> promoList) {
+	private double calculateOrderPrice(Order order, List<Promotion> promoList) {
 		double price = 0;
 		double promoPrice1 = 0;
 		double promoPrice2 = 0;
