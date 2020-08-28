@@ -62,9 +62,8 @@ public class CalculateOrderValue {
 		Set<String> promoItemSet = new HashSet();
 		Map<String, Integer> itemsMap = new HashMap();
 		double price = 0;
-		for (SkuCombination combi : skuCombinationList) {
-			promoItemSet.add(combi.getSkuId());
-		}
+		skuCombinationList.stream().forEach(combi -> promoItemSet.add(combi.getSkuId()));
+
 		order.getItems().forEach(item -> {
 			itemsMap.put(item.getSkuId(), item.getItemCount());
 		});
@@ -119,11 +118,8 @@ public class CalculateOrderValue {
 	 */
 	private double calculatePriceWithoutOffer(List<LineItem> items, Set<String> promoItemSet) {
 		double price = 0;
-		for (LineItem item : items) {
-			if (promoItemSet.contains(item.getSkuId())) {
-				price = price + item.getPrice();
-			}
-		}
+		price = price + items.stream().filter(item -> promoItemSet.contains(item.getSkuId()))
+				.mapToDouble(item -> item.getPrice()).sum();
 		return price;
 	}
 
