@@ -1,19 +1,16 @@
 package com.promotion.engine.dto;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class Sku {
 
 	long id;
 	String name;
 	String description;
 	double price;
-
-	public double getPrice() {
-		return price;
-	}
-
-	public void setPrice(double price) {
-		this.price = price;
-	}
 
 	public Sku(long id, String name, String description, double price) {
 		super();
@@ -23,16 +20,5 @@ public class Sku {
 		this.price = price;
 	}
 
-	public String getDescription() {
-		return description;
-	}
-
-	public long getId() {
-		return id;
-	}
-
-	public String getName() {
-		return name;
-	}
 
 }

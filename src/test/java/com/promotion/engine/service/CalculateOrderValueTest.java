@@ -1,12 +1,11 @@
 package com.promotion.engine.service;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import com.promotion.engine.dto.LineItem;
 import com.promotion.engine.dto.Order;
@@ -17,8 +16,8 @@ class CalculateOrderValueTest {
 
 	@Test
 	void testScenarioA() {
-		CreatePromotion createpromo = new CreatePromotion();
-		List<Promotion> promoList= createpromo.getPromotionList();
+		GetPromotions getPromotions = new GetPromotions();
+		List<Promotion> promoList= getPromotions.getPromotionList();
 		Order order = new Order();
 		List<LineItem> itemList = new ArrayList();
 		LineItem item1 = new LineItem();
@@ -44,8 +43,8 @@ class CalculateOrderValueTest {
 	
 	@Test
 	void testScenarioB() {
-		CreatePromotion createpromo = new CreatePromotion();
-		List<Promotion> promoList= createpromo.getPromotionList();
+		GetPromotions getPromotions = new GetPromotions();
+		List<Promotion> promoList= getPromotions.getPromotionList();
 		Order order = new Order();
 		List<LineItem> itemList = new ArrayList();
 		LineItem item1 = new LineItem();
@@ -71,8 +70,8 @@ class CalculateOrderValueTest {
 	
 	@Test
 	void testScenarioC() {
-		CreatePromotion createpromo = new CreatePromotion();
-		List<Promotion> promoList= createpromo.getPromotionList();
+		GetPromotions getPromotions = new GetPromotions();
+		List<Promotion> promoList= getPromotions.getPromotionList();
 		Order order = new Order();
 		List<LineItem> itemList = new ArrayList();
 		LineItem item1 = new LineItem();

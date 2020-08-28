@@ -9,7 +9,7 @@ import com.promotion.engine.dto.Promotion;
 import com.promotion.engine.dto.SkuCombination;
 
 @Service
-public class CreatePromotion {
+public class GetPromotions {
 
 	public Promotion getPromo1() {
 

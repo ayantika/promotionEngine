@@ -2,26 +2,15 @@ package com.promotion.engine.service;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-import com.promotion.engine.dto.Order;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
 public class PromotionEngineApplication {
 
-
 	public static void main(String[] args) {
 		SpringApplication.run(PromotionEngineApplication.class, args);
-		calculateOrder();
-		
+		// calculateOrder();
 	}
-
-	private static double calculateOrder() {
-		CalculateOrderValue calculateOrderValue = new CalculateOrderValue();
-		Order order = new Order();
-		double orderPrice = calculateOrderValue.getOrderValue(order, null);
-		return orderPrice;
-	}
-	
-
 
 }
