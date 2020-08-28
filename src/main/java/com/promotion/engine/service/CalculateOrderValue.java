@@ -25,7 +25,6 @@ public class CalculateOrderValue {
 	public double getOrderValue(Order order, List<Promotion> promoList) {
 		// TODO Auto-generated method stub
 		return calculateOrderPrice(order, promoList);
-
 	}
 
 	/**
@@ -34,10 +33,11 @@ public class CalculateOrderValue {
 	 * @return
 	 */
 	private double calculateOrderPrice(Order order, List<Promotion> promoList) {
-		double price = 0;
+
 		double promoPrice1 = 0;
 		double promoPrice2 = 0;
 		double promoPrice3 = 0;
+
 		for (Promotion promo : promoList) {
 			if (promo.getType().equals("1")) {
 				promoPrice1 = getPriceForType1(order, promo.getSkuCombinationList(), promo.getPromoPrice());
@@ -47,9 +47,7 @@ public class CalculateOrderValue {
 				promoPrice3 = getPriceForType3(order, promo.getSkuCombinationList(), promo.getPromoPrice());
 			}
 		}
-
-		price = promoPrice1 + promoPrice2 + promoPrice3;
-		return price;
+		return promoPrice1 + promoPrice2 + promoPrice3;
 	}
 
 	/**
@@ -103,11 +101,8 @@ public class CalculateOrderValue {
 	 * @return
 	 */
 	private double getPriceForitem(List<LineItem> items, String key) {
-		for (LineItem item : items) {
-			if (item.getSkuId().equals(key)) {
-				return item.getPrice();
-			}
-		}
+		items.stream().filter(item -> item.getSkuId().equals(key)).mapToDouble(item -> item.getPrice()).sum();
+
 		return 0;
 	}
 
